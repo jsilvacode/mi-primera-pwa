@@ -1,10 +1,10 @@
 const CACHE_NAME = 'pomodoro-v1';
 const urlsToCache = [
-    '/mi-primera-pwa/',
-    '/mi-primera-pwa/index.html',
-    '/mi-primera-pwa/manifest.json',
-    '/mi-primera-pwa/icon-192.png',
-    '/mi-primera-pwa/icon-512.png'
+    '/pomodoro-app/',
+    '/pomodoro-app/index.html',
+    '/pomodoro-app/manifest.json',
+    '/pomodoro-app/icon-192.png',
+    '/pomodoro-app/icon-512.png'
     // Si tuvieras archivos CSS/JS externos, añádelos aquí
 ];
 
