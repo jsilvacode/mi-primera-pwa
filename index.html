@@ -2,123 +2,39 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <!-- Importante para el diseño responsive en móviles -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Mi PWA desde GitHub</title>
-
-    <!-- Metaetiquetas para vista previa en WhatsApp / Facebook / Twitter -->
-    <meta property="og:title" content="Mi Primera PWA">
-    <meta property="og:description" content="Una PWA de prueba creada en GitHub">
-    <!-- IMPORTANTE: después de activar GitHub Pages, cambia la URL de la imagen -->
+    <title>Pomodoro PWA</title>
+    <!-- Metaetiquetas para redes sociales (ajusta las URLs) -->
+    <meta property="og:title" content="Pomodoro PWA">
+    <meta property="og:description" content="Un temporizador Pomodoro que funciona sin conexión y se instala en tu móvil.">
     <meta property="og:image" content="https://jsilvacode.github.io/mi-primera-pwa/icon-512.png">
     <meta property="og:url" content="https://jsilvacode.github.io/mi-primera-pwa/">
     <meta property="og:type" content="website">
-
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Mi Primera PWA">
-    <meta name="twitter:description" content="Una PWA de prueba creada en GitHub">
-    <meta name="twitter:image" content="https://jsilvacode.github.io/mi-primera-pwa/icon-512.png">
-
-    <!-- Enlace al manifest (archivo que configura la instalación) -->
+    <!-- Manifest -->
     <link rel="manifest" href="manifest.json">
-
-    <!-- Estilos (los escribimos aquí mismo para simplificar) -->
+    <!-- Estilos (los pondremos en línea por simplicidad, pero luego puedes externalizar) -->
     <style>
-        body {
-            font-family: system-ui, sans-serif;
-            background: linear-gradient(to bottom, darkorchid, 15%, #2c0a3a);
-            color: white;
-            min-height: 100vh;
-            margin: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 1rem;
-        }
-        .container {
-            max-width: 600px;
-            background: rgba(0,0,0,0.3);
-            padding: 2rem;
-            border-radius: 20px;
-            backdrop-filter: blur(5px);
-        }
-        h1 {
-            font-size: 3rem;
-            margin-bottom: 0.5rem;
-        }
-        pre {
-            background: #1e1e2f;
-            padding: 1rem;
-            border-radius: 8px;
-            text-align: left;
-            overflow-x: auto;
-            color: #f8f8f2;
-        }
-        button {
-            background: white;
-            color: darkorchid;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            font-size: 1.2rem;
-            border-radius: 40px;
-            cursor: pointer;
-            font-weight: bold;
-            margin-top: 1rem;
-            transition: transform 0.2s;
-        }
-        button:hover {
-            transform: scale(1.05);
-        }
+        /* Aquí irá el CSS moderno que desarrollaremos en el Paso 3 */
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>¡Hola PWA!</h1>
-        <p>Esta es mi primera aplicación web progresiva construida directamente en GitHub.</p>
-        
-        <!-- Un botón opcional para instalar (mejora la experiencia) -->
-        <button id="btnInstalar" style="display: none;">📲 Instalar app</button>
-
-        <!-- Mostramos el código CSS de ejemplo (el de la captura) -->
-        <pre><code>body {
-    background: linear-gradient(darkorchid, #2c0a3a);
-    color: white;
-    display: grid;
-    place-items: center;
-    height: 100vh;
-}</code></pre>
+        <h1>🍅 Pomodoro</h1>
+        <div class="timer" id="timer">25:00</div>
+        <div class="controls">
+            <button id="start" class="btn">Iniciar</button>
+            <button id="pause" class="btn" disabled>Pausa</button>
+            <button id="reset" class="btn">Reiniciar</button>
+        </div>
+        <div class="status" id="status">Trabajo</div>
+        <!-- Botón de instalación (mejorado) -->
+        <button id="installBtn" class="install-btn" style="display: none;">📲 Instalar app</button>
     </div>
 
     <script>
-        // Registro del Service Worker
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('service-worker.js')
-                    .then(reg => console.log('✅ SW registrado:', reg))
-                    .catch(err => console.error('❌ Error al registrar SW:', err));
-            });
-        }
-
-        // Lógica para el botón de instalación (opcional, pero recomendado)
-        let deferredPrompt;
-        const installButton = document.getElementById('btnInstalar');
-
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            installButton.style.display = 'inline-block';
-        });
-
-        installButton.addEventListener('click', async () => {
-            if (!deferredPrompt) return;
-            deferredPrompt.prompt();
-            const { outcome } = await deferredPrompt.userChoice;
-            console.log(`Resultado de instalación: ${outcome}`);
-            deferredPrompt = null;
-            installButton.style.display = 'none';
-        });
+        // Aquí irá la lógica del temporizador (Paso 2)
+        // Y la mejora del botón de instalación (Paso 4)
     </script>
 </body>
 </html>
