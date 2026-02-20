@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pomodoro PWA</title>
+    <title>Pomodoro APP</title>
     <!-- Metaetiquetas para redes sociales (ajusta las URLs) -->
-    <meta property="og:title" content="Pomodoro PWA">
+    <meta property="og:title" content="Pomodoro APP">
     <meta property="og:description" content="Un temporizador Pomodoro que funciona sin conexión y se instala en tu móvil.">
-    <meta property="og:image" content="https://jsilvacode.github.io/mi-primera-pwa/icon-512.png">
-    <meta property="og:url" content="https://jsilvacode.github.io/mi-primera-pwa/">
+    <meta property="og:image" content="https://jsilvacode.github.io/pomodoro-app/icon-512.png">
+    <meta property="og:url" content="https://jsilvacode.github.io/pomodoro-app/">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
     <!-- Manifest -->
@@ -150,7 +150,7 @@
         </div>
         <div class="status" id="status">Trabajo</div>
         <!-- Botón de instalación (mejorado) -->
-        <button id="installBtn" class="install-btn" style="display: none;">📲 Instalar app</button>
+        <button id="installBtn" class="install-btn" style="display: none;">📲 Instalar App</button>
     </div>
 
     <script>
@@ -265,7 +265,7 @@
         // Opcional: también ocultar si la app ya está instalada
         window.addEventListener('appinstalled', () => {
             installBtn.style.display = 'none';
-            console.log('PWA instalada correctamente');
+            console.log('App instalada correctamente');
         });
     </script>
 </body>
