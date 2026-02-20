@@ -15,7 +15,128 @@
     <link rel="manifest" href="manifest.json">
     <!-- Estilos (los pondremos en línea por simplicidad, pero luego puedes externalizar) -->
     <style>
-        /* Aquí irá el CSS moderno que desarrollaremos en el Paso 3 */
+                * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 1rem;
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 2rem;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .container:hover {
+            transform: scale(1.02);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            color: #4a4a4a;
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
+        }
+        
+        .timer {
+            font-size: 6rem;
+            font-weight: bold;
+            color: #764ba2;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            margin: 1rem 0;
+            font-family: monospace;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 1.5rem 0;
+        }
+        
+        .btn {
+            background: #764ba2;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.8rem;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(118, 75, 162, 0.3);
+            flex: 0 1 auto;
+            min-width: 100px;
+        }
+        
+        .btn:hover:not(:disabled) {
+            background: #5a3d80;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(118, 75, 162, 0.4);
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .status {
+            font-size: 1.5rem;
+            color: #4a4a4a;
+            margin: 1rem 0;
+            font-weight: 300;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+        
+        .install-btn {
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 1.5rem;
+            width: 100%;
+            transition: background 0.3s;
+        }
+        
+        .install-btn:hover {
+            background: #219a52;
+        }
+        
+        /* Responsive para móviles */
+        @media (max-width: 480px) {
+            .timer {
+                font-size: 4rem;
+            }
+            .btn {
+                padding: 0.6rem 1.2rem;
+                font-size: 1rem;
+                min-width: 80px;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -33,8 +154,112 @@
     </div>
 
     <script>
-        // Aquí irá la lógica del temporizador (Paso 2)
-        // Y la mejora del botón de instalación (Paso 4)
+        // Variables del temporizador
+        let timer;
+        let minutes = 25;
+        let seconds = 0;
+        let isRunning = false;
+        let isWorkSession = true; // true = trabajo, false = descanso
+        
+        const timerElement = document.getElementById('timer');
+        const startBtn = document.getElementById('start');
+        const pauseBtn = document.getElementById('pause');
+        const resetBtn = document.getElementById('reset');
+        const statusElement = document.getElementById('status');
+        
+        // Función para actualizar la visualización del tiempo
+        function updateDisplay() {
+            timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+        
+        // Función que se ejecuta cada segundo
+        function tick() {
+            if (!isRunning) return;
+        
+            if (seconds === 0) {
+                if (minutes === 0) {
+                    // Cambiar de sesión
+                    isWorkSession = !isWorkSession;
+                    minutes = isWorkSession ? 25 : 5;
+                    seconds = 0;
+                    statusElement.textContent = isWorkSession ? 'Trabajo' : 'Descanso';
+                    // Notificación (lo agregaremos en el Paso 6)
+                    if (Notification.permission === 'granted') {
+                        new Notification('Pomodoro', {
+                            body: isWorkSession ? '¡Hora de trabajar!' : '¡Descanso!',
+                            icon: 'icon-192.png'
+                        });
+                    }
+                } else {
+                    minutes--;
+                    seconds = 59;
+                }
+            } else {
+                seconds--;
+            }
+            updateDisplay();
+        }
+        
+        // Iniciar
+        startBtn.addEventListener('click', () => {
+            if (!isRunning) {
+                isRunning = true;
+                timer = setInterval(tick, 1000);
+                startBtn.disabled = true;
+                pauseBtn.disabled = false;
+            }
+        });
+        
+        // Pausar
+        pauseBtn.addEventListener('click', () => {
+            if (isRunning) {
+                isRunning = false;
+                clearInterval(timer);
+                startBtn.disabled = false;
+                pauseBtn.disabled = true;
+            }
+        });
+        
+        // Reiniciar
+        resetBtn.addEventListener('click', () => {
+            isRunning = false;
+            clearInterval(timer);
+            isWorkSession = true;
+            minutes = 25;
+            seconds = 0;
+            statusElement.textContent = 'Trabajo';
+            updateDisplay();
+            startBtn.disabled = false;
+            pauseBtn.disabled = true;
+        });
+        
+        // Inicializar display
+        updateDisplay();
+        
+        // Lógica del botón de instalación
+        let deferredPrompt;
+        const installBtn = document.getElementById('installBtn');
+        
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installBtn.style.display = 'block'; // mostrar botón
+        });
+        
+        installBtn.addEventListener('click', async () => {
+            if (!deferredPrompt) return;
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            console.log(`Resultado instalación: ${outcome}`);
+            deferredPrompt = null;
+            installBtn.style.display = 'none'; // ocultar tras instalar
+        });
+        
+        // Opcional: también ocultar si la app ya está instalada
+        window.addEventListener('appinstalled', () => {
+            installBtn.style.display = 'none';
+            console.log('PWA instalada correctamente');
+        });
     </script>
 </body>
 </html>
