@@ -1,8 +1,8 @@
 {
-    "name": "Mi PWA desde GitHub",
-    "short_name": "PWA GitHub",
+    "name": "Mi Pomodoro App desde GitHub",
+    "short_name": "Pomodoro GitHub",
     "description": "Una PWA mínima creada en GitHub para aprender",
-    "start_url": "/mi-primera-pwa/",
+    "start_url": "/pomodoro-app/",
     "display": "standalone",
     "background_color": "#2c0a3a",
     "theme_color": "darkorchid",
