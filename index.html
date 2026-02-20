@@ -166,6 +166,13 @@
         const pauseBtn = document.getElementById('pause');
         const resetBtn = document.getElementById('reset');
         const statusElement = document.getElementById('status');
+
+        // Solicitar permiso para notificaciones
+        if ('Notification' in window) {
+            if (Notification.permission !== 'granted' && Notification.permission !== 'denied') {
+                Notification.requestPermission();
+            }
+        }
         
         // Función para actualizar la visualización del tiempo
         function updateDisplay() {
